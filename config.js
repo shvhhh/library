@@ -6,6 +6,6 @@ export default  {
     sqldatabase        : 'hemantlibrary',
     httpport           : '8081',
     adminusername      : 'admin',
-    adminpassword      : 'passowrd',
+    adminpassword      : 'password',
     secret             : 'secret'
 }

@@ -10,11 +10,15 @@ route.post("/issue/:id/:student",(req,res)=>{
 route.post("/reutrn/:id",(req,res)=>{
     bookReturn(req.params.id).then((array)=>{res.send(array)});
 });
-route.post("/createstudent",(req,res)=>{
-    createStudent(req.body.sname,req.body.username,req.body.password).then((array)=>{res.send(JSON.stringify(array))});
+route.post("/createstudent/:sname/:username/:pass",(req,res)=>{
+    console.log('hello');
+    createStudent(req.params.sname,req.params.username,req.params.pass).then((result)=>{
+    
+    
+        res.send(JSON.stringify(result))});
 });
-route.post("/createbook",(req,res)=>{
-    createBook(req.body.title,req.body.author,req.body.number).then((notify)=>{res.send(JSON.stringify(notify))});
+route.post("/createbook/:title/:author/:number",(req,res)=>{
+    createBook(req.params.title,req.params.author,req.params.number).then((notify)=>{res.send(JSON.stringify(notify))});
 });
 
 

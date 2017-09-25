@@ -103,13 +103,14 @@ bookIssue(id,studentid)
 },
 createStudent(name,uname,pass)
 {
-
+	console.log('hello');
 	return new Promise((resolve,reject)=>{
 		pool.getConnection(function(err, connection) {
-			connection.query('INSERT INTO books (username,fullname,password) VALUES ("'+uname+'","'+name+'","'+password+'")', function (error, results, fields) {
+			connection.query('INSERT INTO students (username,fullname,password) VALUES ("'+uname+'","'+name+'","'+pass+'")', function (error, results, fields) {
 			  connection.release();
-			  if (error) reject(error);
-		   resolve(JSON.stringify(results[0][0].dates));
+			  if (error) resolve(error);
+			  console.log('hello');
+		   resolve(results);
 			 });
 		  });
 })		
@@ -117,18 +118,23 @@ createStudent(name,uname,pass)
 studentLogin(username,password){
 	return new Promise((resolve,reject)=>{
 		pool.getConnection(function(err, connection) {
-			connection.query('SELECT * FROM student WHERE username ='+username+'', function (error, results, fields)
+			connection.query('SELECT * FROM students WHERE username ="'+username+'"', function (error, results, fields)
 			 {
 			  connection.release();
 			  if (error) reject(error);
-			  if(results.length<1);
-			  resolve("user not found");
-			  if(results[0].password!=password)
-			  resolve("password is incorrect");
+			  console.log(results);
+			  if(results.length<1)
+			  {resolve("user not found");
+			  return;
+				}
+			  else if(results[0].password!=password)
+			  {resolve("password is incorrect");
+			  return;
+			} 
 			  let tokn = jwt.sign({
 				username 
 			  }, config.secret, { expiresIn: '1h' });
-			  resolve(results[0].fullname+"is logged in with token"+tokn);
+			  resolve(results[0].fullname+" is logged in with token "+tokn);
 			}); 
 			});
 		  });
@@ -143,7 +149,7 @@ return new Promise((resolve,reject)=>{
  	let tokn = jwt.sign({
  		username 
  	  }, config.secret, { expiresIn: '1h' });
- 	  resolve(username+"is logged in with token"+tokn);
+ 	  resolve(username+" is logged in with token "+tokn);
 	
  });
  },
