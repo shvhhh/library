@@ -1,0 +1,11 @@
+export default  {
+    sqlconnectionLimit : 10,
+    sqlhost            : '192.168.0.113',
+    sqluser            : 'root',
+    sqlpassword        : '12345',
+    sqldatabase        : 'hemantlibrary',
+    httpport           : '8081',
+    adminusername      : 'admin',
+    adminpassword      : 'passowrd',
+    secret             : 'secret'
+}
