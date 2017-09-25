@@ -3,15 +3,20 @@ import config from './config';
 import express from 'express';
 import stroute from './routes';
 import loginroute from './loginroutes';
-import libroute from './libroutes';
-import auth from './auth'
+import libroute from './libroute';
+import auth from './auth';
+const {student,library}=auth;
 const app = express();
+console.log('hello');
 //import fs from "fs";
 //var { booksByAuth, bookById, allBooks, bookReturn, bookIssue} = api;
 //app.set('view engine', 'ejs');
 app.use("/login",loginroute);
-app.use("/student",auth.student,stroute);
-app.use("/library",auth.library,libroute);
+console.log('hello');
+app.use("/student",student,stroute);
+console.log('hello');
+app.use("/library",library,libroute);
+console.log('hello');
 var server = app.listen(config.httpport, function () {
 	var host = server.address().address
 	var port = server.address().port

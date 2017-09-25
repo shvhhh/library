@@ -71,6 +71,7 @@ bookReturn(id)
 			  if (error) reject(error);
 		   console.log(JSON.stringify(results[0][0].dates));
 		   if((Date.now()-results[0][0].dates)/60*60*1000*24>=31)
+		   resolve(JSON.stringify("you have fine of "+(Date.now()-results[0][0].dates)/60*60*1000*24>=31)+"rupee");
 		   resolve(JSON.stringify(results[0][0].dates));
 			 });
 		  });
@@ -81,14 +82,21 @@ bookIssue(id,studentid)
 	return new Promise((resolve,reject)=>{
 		
 		pool.getConnection(function(err, connection) {
-			connection.query('CALL book_issue('+id+','+Date.now()+','+studentid+')', function (error, results, fields) {
-			  
-			  if (error) reject(error);
-
-		   console.log(JSON.stringify(results));
-		   resolve('book issue');
-		   connection.release();	 
-		});
+			connection.query('SELECT student FROM books WHERE id='+id+';',function(error, result, fields){
+				if(result.length>0)
+				{resolve('book already issued to student with id:'+result[0]);
+				connection.release();}
+				else
+				{connection.query('CALL book_issue('+id+','+Date.now()+','+studentid+')', function (error, results, fields) {
+					
+					if (error) reject(error);
+	  
+				 console.log(JSON.stringify(results));
+				 resolve('book issue');
+				 connection.release();	 
+			  });}
+			})
+			
 		
 		  });
 	});
@@ -146,18 +154,28 @@ return new Promise((resolve,reject)=>{
 			connection.query("SELECT * FROM library WHERE title='"+title+"' AND author='"+author+"'", function (error, results, fields)
 			 {
 			  if (error) reject(error);
-			  if(results.length>0);
+			  if(results.length>0)
 			  {
-				  
+				connection.query("call dupbook ("+results[0].id+","+number+")", function (error, results, fields){
+				if(err)
+				throw err;
+					resolve("book quantity updated");
+					connection.release();	
+				});
+
 			  }
-			  if(results[0].password!=password)
-			  resolve("password is incorrect");
-			  let tokn = jwt.sign({
-				username 
-			  }, config.secret, { expiresIn: '1h' });
-			  resolve(results[0].fullname+"is logged in with token"+tokn);
-			}); 
+			  else
+			  {
+				connection.query("call add_book ('"+title+"','"+author+"',"+number+")", function (error, results, fields){
+					if(err)
+					throw err;
+						resolve("book added");
+						connection.release();	
+					});
+			  }
+			   
 			});
 		  });
- }
+ });
+}
 }

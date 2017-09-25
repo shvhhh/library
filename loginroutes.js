@@ -2,8 +2,8 @@ import express from 'express';
 const route=express.Router();
 import api from "./apis";
 const {libraryLogin,studentLogin} = api;
-route.post('/login/:type',(req,res)=>{
-    if(res.params.type=='library')
+route.post('/:type',(req,res)=>{
+    if(req.params.type=='library')
     {
         libraryLogin(req.body.username,req.body.password).than((object)=>{res.send(JSON.stringify(object))})
     }
@@ -12,3 +12,4 @@ route.post('/login/:type',(req,res)=>{
         studentLogin(req.body.username,req.body.password).than((object)=>{res.send(JSON.stringify(object))})
     }
 })
+export default route;

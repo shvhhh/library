@@ -3,7 +3,7 @@ const route=express.Router();
 import api from "./apis";
 const {createStudent,booksByAuth,bookById,bookByType,allBooks,bookReturn,bookIssue,studentLogin,libraryLogin}=api;
 
-route.get("/",(req,res)=>{res.send(JSON.stringify(library))})
+//route.get("/",(req,res)=>{res.send(JSON.stringify(library))})
 route.get("/author/:name",(req,res)=>{
     booksByAuth(req.params.name).then((array)=>{res.send(JSON.stringify(array))}); 
 });

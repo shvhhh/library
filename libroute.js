@@ -1,7 +1,7 @@
-import express from 'express';
-const route=express.Router();
+
+import route from "./routes";
 import api from "./apis";
-const {createStudent,booksByAuth,bookById,bookByType,allBooks,bookReturn,bookIssue,createBook}=api;
+const {bookReturn,bookIssue,createBook,createStudent}=api;
 
 
 route.post("/issue/:id/:student",(req,res)=>{
