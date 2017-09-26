@@ -16,7 +16,7 @@ export default {
                 return;}
                 else
                 {
-                    res.status(403).send();
+                    res.status(403).send("invalid login");
                     return;
                 }
             }
@@ -25,6 +25,10 @@ export default {
           });
           
           
+       }
+       else
+       {
+        res.status(200).send(JSON.stringify("please login first"));
        }
     },
     library(req,res,next)

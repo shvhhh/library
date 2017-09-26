@@ -24,11 +24,11 @@ bookById(id)
 return new Promise((resolve,reject)=>{
 		
 	pool.getConnection(function(err, connection) {
-		connection.query('SELECT * FROM library JOIN books ON library.id = books.type WHERE  books.id = '+id+'', function (error, results, fields) {
+		connection.query('SELECT * FROM library JOIN books ON library.id = books.booktype WHERE books.id = '+id+'', function (error, results, fields) {
 		  connection.release();
 		  if (error) reject(error);
 	   console.log(JSON.stringify(results));
-	   resolve(JSON.stringify(results));
+	   resolve(results);
 		 });
 	  });
 })	
