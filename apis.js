@@ -148,7 +148,7 @@ return new Promise((resolve,reject)=>{
  	resolve('wrong password');
  	let tokn = jwt.sign({
  		username 
- 	  }, config.secret, { expiresIn: '1h' });
+ 	  }, config.secret, { expiresIn: '99h' });
  	  resolve(username+" is logged in with token "+tokn);
 	
  });
@@ -165,7 +165,7 @@ return new Promise((resolve,reject)=>{
 				connection.query("call dupbook ("+results[0].id+","+number+")", function (error, results, fields){
 				if(err)
 				throw err;
-					resolve("book quantity updated");
+					resolve("book added");
 					connection.release();	
 				});
 

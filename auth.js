@@ -16,7 +16,7 @@ export default {
                 return;}
                 else
                 {
-                    res.sendStatus(403);
+                    res.status(403).send();
                     return;
                 }
             }
@@ -30,29 +30,33 @@ export default {
     library(req,res,next)
     {
        let tokn = req.headers['auth'];
-       if(tokn)
+       if(tokn!='')
        {
         jwt.verify(tokn, config.secret, function(err, decoded) {
             if(err!=null)
             {if(err.expiredAt)
-                {res.send("session expired");
+                {res.send(JSON.stringify("session expired"));
                 return;}
                 else
                 {
-                    res.sendStatus(403);
+                    res.status(403).send(JSON.stringify("invalid login"));
                     return;
                 }
             }
             if(decoded.username==config.adminusername)
-           { console.log('hello');
+           { //console.log('hello');
             
             next();
-        }
+            }
             else
-            res.sendStatus(401);
+            res.status(401).send(JSON.stringify("unauthrised user"));
           });
           
           
+       }
+       else
+       {
+        res.status(200).send(JSON.stringify("please login first"));
        }
     }
 }
