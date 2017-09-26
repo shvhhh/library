@@ -10,9 +10,12 @@
     "babel-preset-stage-2": "^6.24.1",
     "bcryptjs": "2.4.3",
     "body-parser": "^1.17.2",
+    "chai": "^4.1.2",
+    "chai-string": "^1.4.0",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
     "jsonwebtoken": "^8.0.1",
+    "mocha": "^3.5.3",
     "mongodb": "^2.2.31",
     "mongodb-stitch": "0.0.25",
     "mongoose": "^4.11.10",
@@ -20,7 +23,9 @@
     "mysql": "github:mysqljs/mysql",
     "nodemon": "^1.12.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "supertest": "^3.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel-node server.js --presets es2015,stage-2"
