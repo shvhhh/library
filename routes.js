@@ -13,6 +13,9 @@ route.get("/id/:id",(req,res)=>{
 route.get("/booktype/:type",(req,res)=>{
     bookByType(req.params.type).then((array)=>{res.send(JSON.stringify(array))});
 });
+route.get("/allbooks",(req,res)=>{
+    allBooks().then((array)=>{res.send(JSON.stringify(array))});
+});
 
 
 

@@ -191,12 +191,11 @@ describe("Student Login",function(){
               });
             }
             )
-            })*/
+            })
 
-            describe("Books by type",function(){
+            describe("get All Books",function(){
               
-              var test=[{case:"2",expected:'[{"id":3,"booktype":2,"student":null,"dates":null},{"id":4,"booktype":2,"student":null,"dates":null}]',status:200},
-              {case:"9999",expected:"no book found with type:9999",status:200},
+              var test=[{case:"allbooks",expected:103,status:200},
               {case:"",expected:"you have reached some where you shouldn't be",status:404}];
               test.forEach((test)=>
               {
@@ -204,7 +203,7 @@ describe("Student Login",function(){
               
                   // calling home page api
                   server
-                  .get("/library/booktype/"+test.case)
+                  .get("/library/"+test.case)
                   .expect("Content-type",/json/)
                   .expect(200) // THis is HTTP response
                   .set('auth','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTA2NDE5MTYyLCJleHAiOjE1MDY3NzU1NjJ9.iDVR7LjRvCy4eRcizK4En1-05JyiqpiaKasr9UtgiJo')
@@ -212,14 +211,44 @@ describe("Student Login",function(){
                     // HTTP status should be 200
                     assert.equal(res.status, test.status);
                     console.log(res.text);
-                    assert.equal(res.text==test.expected||(JSON.parse(res.text)==test.expected),true);
+                    assert.equal(res.text==test.expected||((JSON.parse(res.text)).length==test.expected),true);
                     done();
                   });
                 });
               }
               )
               })
-          
+          */
+              describe("issue Book",function(){
+                
+                var test=[{case:"/105/3",expected:'book issue',status:200},
+                {case:"/105/hemant",expected:'studentid must be numeric',status:200},
+                {case:"/book1/3",expected:'bookid must be numeric',status:200},
+                {case:"/105/3",expected:'book already issued to student with id:3',status:200},
+                {case:"/9999/3",expected:'book with id 9999 not exist',status:200},
+                {case:"/106/9999",expected:"student with id 9999 not exist",status:200}];
+                test.forEach((test)=>
+                {
+                  it("should expect "+test.expected,function(done){
+                
+                    // calling home page api
+                    server
+                    .post("/library/issue"+test.case)
+                    .expect("Content-type",/json/)
+                    .expect(200) // THis is HTTP response
+                    .set('auth','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTA2NDE5MTYyLCJleHAiOjE1MDY3NzU1NjJ9.iDVR7LjRvCy4eRcizK4En1-05JyiqpiaKasr9UtgiJo')
+                    .end(function(err,res){
+                      // HTTP status should be 200
+                      assert.equal(res.status, test.status);
+                      console.log(res.text);
+                      assert.equal(res.text==test.expected||((JSON.parse(res.text)).length==test.expected),true);
+                      done();
+                    });
+                  });
+                }
+                )
+                })
+            
       /*
 describe('booksByAuth()', function() {
   var tests = [

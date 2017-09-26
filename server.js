@@ -19,7 +19,7 @@ app.use("/library",library,libroute);
 app.use(function(req, res, next){
 	res.status(404);
 	let erro="you have reached some where you shouldn't be";
-	res.send(JSON.stringify(erro));
+	res.send(erro);
   });
 var server = app.listen(config.httpport, function () {
 	var host = server.address().address

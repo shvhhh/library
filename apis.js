@@ -59,7 +59,7 @@ bookByType(type)
 		  });
 },
 
-allBooks(libraryarray)
+allBooks()
 {
 	return new Promise((resolve,reject)=>{
 
@@ -68,7 +68,7 @@ allBooks(libraryarray)
 			  connection.release();
 			  if (error) reject(error);
 		   console.log(JSON.stringify(results));
-		   resolve(JSON.stringify(results));
+		   resolve(results);
 			 });
 		  });
 })
@@ -91,25 +91,49 @@ bookReturn(id)
 bookIssue(id,studentid)
 {	//console.log(libraryarray,bookarray,id,studentid);
 	return new Promise((resolve,reject)=>{
-		
+		if(isNaN(id))
+		{
+			resolve("bookid must be numeric");
+		}
+		else if(isNaN(studentid))
+		{
+			resolve("studentid must be numeric");
+		}
+		else
+		{
 		pool.getConnection(function(err, connection) {
 			connection.query('SELECT student FROM books WHERE id='+id+';',function(error, result, fields){
-				if(result.length>0)
-				{resolve('book already issued to student with id:'+result[0]);
+				if(!result[0])
+				{resolve('book with id '+id+' not exist');
+				connection.release();	
+				}
+				else if(result[0].student!==null)
+				{	console.log(result);
+					resolve('book already issued to student with id:'+result[0].student);
 				connection.release();}
 				else
-				{connection.query('CALL book_issue('+id+','+Date.now()+','+studentid+')', function (error, results, fields) {
+				{
+					connection.query("select id from students where id="+studentid,(err,result,fields)=>{
+					if(err) throw err;
+					if(result.length<1)
+					{resolve("student with id "+studentid+" not exist");
+					connection.release();
+					return;
+					}	
+						connection.query('CALL book_issue('+id+','+Date.now()+','+studentid+')', function (error, results, fields) {
+							if (error) reject(error);
+						 console.log(JSON.stringify(results));
+						 resolve('book issue');
+						 connection.release();	 
+						});
+					})
 					
-					if (error) reject(error);
-	  
-				 console.log(JSON.stringify(results));
-				 resolve('book issue');
-				 connection.release();	 
-			  });}
+					}
 			})
 			
 		
-		  });
+			});
+		}
 	});
 },
 createStudent(name,uname,pass)
