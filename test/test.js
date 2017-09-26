@@ -34,7 +34,7 @@ test.forEach((test)=>
 
 describe("Student Login",function(){
   
-  var test=[{case:"/login/student/shvhh/12345",expected:"admin is logged in with token",status:200},
+  var test=[{case:"/login/student/shvhh/12345",expected:"is logged in with token",status:200},
   {case:"/login/student/admin/library",expected:"user not found",status:200},
   {case:"/login/student/shvhh/password",expected:"password is incorrect",status:200},
   {case:"/login/student/",expected:"you have reached some where you shouldn't be",status:404}];

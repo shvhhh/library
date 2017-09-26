@@ -1,6 +1,6 @@
 export default  {
     sqlconnectionLimit : 10,
-    sqlhost            : '192.168.0.113',
+    sqlhost            : '192.168.0.96',
     sqluser            : 'root',
     sqlpassword        : '12345',
     sqldatabase        : 'hemantlibrary',
