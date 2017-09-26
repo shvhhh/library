@@ -12,7 +12,7 @@ const app = express();
 console.log('hello');
 
 
-
+app.use((req,res,next)=>{console.log(req.url);next();})
 app.use("/login",loginroute);
 app.use("/student",student,stroute);
 app.use("/library",library,libroute);

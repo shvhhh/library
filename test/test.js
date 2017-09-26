@@ -8,7 +8,7 @@ const supertest = require("supertest");
 
 var server = supertest.agent("http://localhost:8081");
 
-describe("Library Login",function(){
+/*describe("Library Login",function(){
 
 var test=[{case:"/login/library/admin/password",expected:"admin is logged in with token",status:200},{case:"/login/library/admin/library",expected:"wrong password",status:200},{case:"/login/library/ad/password",expected:"wrong username",status:200},{case:"/login/library/",expected:"you have reached some where you shouldn't be",status:404}];
 test.forEach((test)=>
@@ -111,8 +111,35 @@ describe("Student Login",function(){
         });
       }
       )
-      })
-/*
+      })*/
+      describe("Book by author",function(){
+        
+        var test=[{case:"author",expected:'[{"id":103,"title":"title","author":"author","numbers":171}]',status:200},
+        {case:"invalid_author",expected:"no book found with author name:invalid_author",status:200},
+        {case:"",expected:"you have reached some where you shouldn't be",status:404}];
+        test.forEach((test)=>
+        {
+          it("should expect "+test.expected,function(done){
+        
+            // calling home page api
+            server
+            .get("/library/author/"+test.case)
+            .expect("Content-type",/json/)
+            .expect(200) // THis is HTTP response
+            .set('auth','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTA2NDE5MTYyLCJleHAiOjE1MDY3NzU1NjJ9.iDVR7LjRvCy4eRcizK4En1-05JyiqpiaKasr9UtgiJo')
+            .end(function(err,res){
+              // HTTP status should be 200
+              assert.equal(res.status, test.status);
+              console.log(res.text);
+              assert.equal(res.text==test.expected||(JSON.parse(res.text)==test.expected),true);
+              done();
+            });
+          });
+        }
+        )
+        })
+      
+      /*
 describe('booksByAuth()', function() {
   var tests = [
     {args:'Author10',       expected: 2},

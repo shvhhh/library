@@ -7,13 +7,20 @@ export default {
 booksByAuth(query)
 {
 return new Promise((resolve,reject)=>{
-	//console.log(pool);
+	if(!query)
+	{
+		resolve("invalid author name");
+		return;
+	}
 	pool.getConnection(function(err, connection) {
 		connection.query('SELECT * FROM library WHERE author = "'+query+'"', function (error, results, fields) {
 		  connection.release();
 		  if (error) reject(error);
 	   console.log(JSON.stringify(results));
-	   resolve(JSON.stringify(results));
+		 if(results.length>0)
+		 resolve(results);
+		 else
+		 resolve("no book found with author name:"+query);
 		 });
 	  });
 })
