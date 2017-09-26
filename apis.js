@@ -35,21 +35,25 @@ return new Promise((resolve,reject)=>{
 		  connection.release();
 		  if (error) reject(error);
 	   console.log(JSON.stringify(results));
-	   resolve(results);
+		 if(results.length<1)
+		 {resolve("no book found with id:"+id)}
+		 resolve(results);
 		 });
 	  });
 })	
 },
 
-bookByType(bookarray,type)
+bookByType(type)
 {
 	return new Promise((resolve,reject)=>{
 		pool.getConnection(function(err, connection) {
-			connection.query('SELECT * FROM books WHERE type = '+type+' AND student IS NULL', function (error, results, fields) {
+			connection.query('SELECT * FROM books WHERE booktype = '+type+' AND student IS NULL', function (error, results, fields) {
 			  connection.release();
 			  if (error) reject(error);
-		   console.log(JSON.stringify(results));
-		   resolve(JSON.stringify(results));
+			 console.log(JSON.stringify(results));
+			 if(results.length<1)
+			 resolve("no book found with type:"+type);
+		   resolve(results);
 			 });
 			});
 		  });

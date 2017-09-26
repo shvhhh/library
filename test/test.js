@@ -111,7 +111,7 @@ describe("Student Login",function(){
         });
       }
       )
-      })*/
+      })
       describe("Book by author",function(){
         
         var test=[{case:"author",expected:'[{"id":103,"title":"title","author":"author","numbers":171}]',status:200},
@@ -139,6 +139,87 @@ describe("Student Login",function(){
         )
         })
       
+        describe("Book by id",function(){
+          
+          var test=[{case:"5",expected:'[{"id":5,"title":"Title69","author":"Author67","numbers":1,"booktype":3,"student":null,"dates":null}]',status:200},
+          {case:"9999",expected:"no book found with id:9999",status:200},
+          {case:"",expected:"you have reached some where you shouldn't be",status:404}];
+          test.forEach((test)=>
+          {
+            it("should expect "+test.expected,function(done){
+          
+              // calling home page api
+              server
+              .get("/library/id/"+test.case)
+              .expect("Content-type",/json/)
+              .expect(200) // THis is HTTP response
+              .set('auth','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTA2NDE5MTYyLCJleHAiOjE1MDY3NzU1NjJ9.iDVR7LjRvCy4eRcizK4En1-05JyiqpiaKasr9UtgiJo')
+              .end(function(err,res){
+                // HTTP status should be 200
+                assert.equal(res.status, test.status);
+                console.log(res.text);
+                assert.equal(res.text==test.expected||(JSON.parse(res.text)==test.expected),true);
+                done();
+              });
+            });
+          }
+          )
+          })
+        
+          describe("Books by type",function(){
+            
+            var test=[{case:"2",expected:'[{"id":3,"booktype":2,"student":null,"dates":null},{"id":4,"booktype":2,"student":null,"dates":null}]',status:200},
+            {case:"9999",expected:"no book found with type:9999",status:200},
+            {case:"",expected:"you have reached some where you shouldn't be",status:404}];
+            test.forEach((test)=>
+            {
+              it("should expect "+test.expected,function(done){
+            
+                // calling home page api
+                server
+                .get("/library/booktype/"+test.case)
+                .expect("Content-type",/json/)
+                .expect(200) // THis is HTTP response
+                .set('auth','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTA2NDE5MTYyLCJleHAiOjE1MDY3NzU1NjJ9.iDVR7LjRvCy4eRcizK4En1-05JyiqpiaKasr9UtgiJo')
+                .end(function(err,res){
+                  // HTTP status should be 200
+                  assert.equal(res.status, test.status);
+                  console.log(res.text);
+                  assert.equal(res.text==test.expected||(JSON.parse(res.text)==test.expected),true);
+                  done();
+                });
+              });
+            }
+            )
+            })*/
+
+            describe("Books by type",function(){
+              
+              var test=[{case:"2",expected:'[{"id":3,"booktype":2,"student":null,"dates":null},{"id":4,"booktype":2,"student":null,"dates":null}]',status:200},
+              {case:"9999",expected:"no book found with type:9999",status:200},
+              {case:"",expected:"you have reached some where you shouldn't be",status:404}];
+              test.forEach((test)=>
+              {
+                it("should expect "+test.expected,function(done){
+              
+                  // calling home page api
+                  server
+                  .get("/library/booktype/"+test.case)
+                  .expect("Content-type",/json/)
+                  .expect(200) // THis is HTTP response
+                  .set('auth','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTA2NDE5MTYyLCJleHAiOjE1MDY3NzU1NjJ9.iDVR7LjRvCy4eRcizK4En1-05JyiqpiaKasr9UtgiJo')
+                  .end(function(err,res){
+                    // HTTP status should be 200
+                    assert.equal(res.status, test.status);
+                    console.log(res.text);
+                    assert.equal(res.text==test.expected||(JSON.parse(res.text)==test.expected),true);
+                    done();
+                  });
+                });
+              }
+              )
+              })
+          
       /*
 describe('booksByAuth()', function() {
   var tests = [
